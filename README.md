@@ -1,27 +1,21 @@
-# 🧠 Vibecode Editor – AI-Powered Web IDE
+# VibeCodeAI – AI-Powered Web IDE
 
-![Vibecode Editor Thumbnail](public/vibe-code-editor-thumbnail.svg)
+VibeCodeAI is a full-stack, web-based integrated development environment built with Next.js and Monaco Editor. It features real-time code execution using WebContainers, AI-powered code suggestions via locally running Ollama models, multi-stack templates, an integrated terminal, and a developer-focused UI for seamless coding directly in the browser.
 
-**Vibecode Editor** is a blazing-fast, AI-integrated web IDE built entirely in the browser using **Next.js App Router**, **WebContainers**, **Monaco Editor**, and **local LLMs via Ollama**. It offers real-time code execution, an AI-powered chat assistant, and support for multiple tech stacks — all wrapped in a stunning developer-first UI.
+## Key Features
 
----
+- **OAuth Authentication** – Secure login with Google and GitHub via NextAuth
+- **Modern Developer Interface** – Built with TailwindCSS and ShadCN UI components
+- **Theme Support** – Toggle between dark and light modes
+- **Project Templates** – Start quickly with React, Next.js, Express, Hono, Vue, or Angular templates
+- **File System Management** – Create, rename, delete, and organize files and folders
+- **Advanced Code Editor** – Monaco Editor with syntax highlighting, formatting, and custom keybindings
+- **AI-Powered Autocomplete** – Code suggestions powered by local Ollama models (trigger with Ctrl+Space or double Enter)
+- **In-Browser Code Execution** – Run frontend and backend applications instantly using WebContainers
+- **Integrated Terminal** – Full terminal experience with xterm.js
+- **AI Chat Assistant** – Share files with AI for explanations, refactoring suggestions, and debugging help
 
-## 🚀 Features
-
-- 🔐 **OAuth Login with NextAuth** – Supports Google & GitHub login.
-- 🎨 **Modern UI** – Built with TailwindCSS & ShadCN UI.
-- 🌗 **Dark/Light Mode** – Seamlessly toggle between themes.
-- 🧱 **Project Templates** – Choose from React, Next.js, Express, Hono, Vue, or Angular.
-- 🗂️ **Custom File Explorer** – Create, rename, delete, and manage files/folders easily.
-- 🖊️ **Enhanced Monaco Editor** – Syntax highlighting, formatting, keybindings, and AI autocomplete.
-- 💡 **AI Suggestions with Ollama** – Local models give you code completion on `Ctrl + Space` or double `Enter`. Accept with `Tab`.
-- ⚙️ **WebContainers Integration** – Instantly run frontend/backend apps right in the browser.
-- 💻 **Terminal with xterm.js** – Fully interactive embedded terminal experience.
-- 🤖 **AI Chat Assistant** – Share files with the AI and get help, refactors, or explanations.
-
----
-
-## 🧱 Tech Stack
+## Tech Stack
 
 | Layer         | Technology                                   |
 |---------------|----------------------------------------------|
@@ -35,115 +29,156 @@
 | Terminal      | xterm.js                                     |
 | Database      | MongoDB (via DATABASE_URL)                   |
 
----
+## Getting Started
 
-## 🛠️ Getting Started
+### Prerequisites
 
-### 1. Clone the Repo
+- Node.js 18+ 
+- MongoDB instance
+- Docker (for Ollama)
+- Ollama installed locally
+- Google/GitHub OAuth credentials
 
+### Installation
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/vibecode-editor.git
-cd vibecode-editor
-````
+git clone https://github.com/your-username/vibecodeai.git
+cd vibecodeai
+```
 
-### 2. Install Dependencies
-
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-### 3. Set Up Environment Variables
-
-Create a `.env.local` file using the template:
-
-```bash
-cp .env.example .env.local
+3. Configure environment variables:
+Create a `.env.local` file with the following variables:
 ```
-
-Then, fill in your credentials:
-
-```env
-AUTH_SECRET=your_auth_secret
+AUTH_SECRET=your_generated_auth_secret
 AUTH_GOOGLE_ID=your_google_client_id
-AUTH_GOOGLE_SECRET=your_google_secret
+AUTH_GOOGLE_SECRET=your_google_client_secret
 AUTH_GITHUB_ID=your_github_client_id
-AUTH_GITHUB_SECRET=your_github_secret
+AUTH_GITHUB_SECRET=your_github_client_secret
 DATABASE_URL=your_mongodb_connection_string
 NEXTAUTH_URL=http://localhost:3000
 ```
 
-### 4. Start Local Ollama Model
-
-Make sure [Ollama](https://ollama.com/) and Docker are installed, then run:
-
+4. Start the Ollama model:
 ```bash
 ollama run codellama
 ```
 
-Or use your preferred model that supports code generation.
-
-### 5. Run the Development Server
-
+5. Run the development server:
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000` in your browser.
+The application will be available at `http://localhost:3000`.
 
----
-
-## 📁 Project Structure
+## Project Architecture
 
 ```
-.
-├── app/                     # App Router-based pages & routes
-├── components/              # UI components
-├── editor/                 # Monaco, File Explorer, Terminal
-├── lib/                     # Utility functions
-├── public/                  # Static files (incl. thumbnail)
-├── utils/                   # AI helpers, WebContainer logic
-├── .env.example             # Example env vars
-└── README.md
+vibecodeai/
+├── app/                    # Next.js App Router pages and API routes
+├── components/             # Reusable UI components
+├── editor/                # Core editor components (Monaco, File Explorer, Terminal)
+├── lib/                   # Utility functions and shared logic
+├── utils/                 # AI integration and WebContainer utilities
+├── public/                # Static assets
+└── types/                 # TypeScript type definitions
 ```
 
----
+## Development Workflow
 
-## 🎯 Keyboard Shortcuts
+### Setting Up AI Features
 
-* `Ctrl + Space` or `Double Enter`: Trigger AI suggestions
-* `Tab`: Accept AI suggestion
-* `/`: Open Command Palette (if implemented)
+1. Install Ollama from [ollama.com](https://ollama.com)
+2. Pull a code-capable model:
+```bash
+ollama pull codellama
+```
+3. Ensure Ollama is running before starting the development server
 
----
+### Building for Production
 
-## ✅ Roadmap
+```bash
+npm run build
+npm start
+```
 
-* [x] Google & GitHub Auth via NextAuth
-* [x] Multiple stack templates
-* [x] Monaco Editor + AI
-* [x] WebContainers + terminal
-* [x] AI chat for code assistance
-* [ ] GitHub repo import/export
-* [ ] Save/load playground from DB
-* [ ] Real-time collaboration
-* [ ] Plugin system for templates/tools
-* [ ] One-click deploy via Vercel/Netlify
+## Key Technical Implementation Details
 
----
+### WebContainers Integration
+- Utilizes StackBlitz's WebContainers API for secure, in-browser Node.js environments
+- Supports npm package installation and script execution
+- Provides isolated filesystem for each project session
 
-## 📄 License
+### Monaco Editor Customization
+- Custom language support and syntax highlighting
+- Integrated formatting with Prettier
+- Custom keybindings and command palette
+- File-based persistence and state management
+
+### AI Integration Architecture
+- Local Ollama instance communicates via REST API
+- Context-aware code suggestions based on current file content
+- File sharing capability for AI-assisted debugging
+- Fallback mechanisms for offline/error scenarios
+
+### Authentication Flow
+- NextAuth.js with JWT session strategy
+- Database sessions stored in MongoDB
+- Protected API routes and editor access
+- User-specific project isolation
+
+## Design Decisions
+
+### Why Local LLMs?
+- Privacy: Code never leaves your machine
+- Offline capability: Work without internet connectivity
+- Cost: No API usage fees
+- Customization: Use specialized models for different tasks
+
+### Why WebContainers?
+- Zero-setup development environment
+- Consistent runtime across user machines
+- Secure sandboxing of code execution
+- Support for full-stack applications
+
+### Why Next.js App Router?
+- Server-side rendering for improved performance
+- Built-in API routes for backend functionality
+- Simplified data fetching patterns
+- Optimized client-side navigation
+
+## Challenges and Solutions
+
+### Challenge: In-Browser Filesystem Management
+**Solution**: Implemented virtual file system with WebContainer's filesystem API, providing create/read/update/delete operations with proper error handling and state synchronization.
+
+### Challenge: Real-time AI Suggestions
+**Solution**: Debounced API calls to Ollama with context window optimization, caching frequent patterns, and implementing graceful degradation when AI is unavailable.
+
+### Challenge: Multi-stack Template System
+**Solution**: Created template abstraction layer with configuration files for each stack, allowing dynamic project scaffolding with appropriate dependencies and boilerplate.
+
+## Future Enhancements
+
+1. **Collaborative Editing** – Real-time multiplayer code editing
+2. **Plugin System** – Extensible architecture for custom tools and integrations
+3. **Advanced AI Features** – Code review, automated testing, and deployment assistance
+4. **Cloud Sync** – Project synchronization across devices
+5. **Additional Runtimes** – Support for Python, Go, and other languages
+
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
----
+## Acknowledgments
 
-## 🙏 Acknowledgements
-
-* [Monaco Editor](https://microsoft.github.io/monaco-editor/)
-* [Ollama](https://ollama.com/) – for offline LLMs
-* [WebContainers](https://webcontainers.io/)
-* [xterm.js](https://xtermjs.org/)
-* [NextAuth.js](https://next-auth.js.org/)
-
-```
-
+- Monaco Editor by Microsoft for the core editing experience
+- Ollama for making local LLMs accessible
+- WebContainers by StackBlitz for in-browser execution
+- NextAuth for authentication infrastructure
+- The open-source communities behind Next.js, TailwindCSS, and ShadCN
